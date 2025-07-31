@@ -1,7 +1,34 @@
-# Tauri + React + Typescript
+# Word AI
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+A desktop application that generates contextual stories for vocabulary words using AI.
 
-## Recommended IDE Setup
+## Features
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+- **AI-Powered Stories**: Generates contextual narratives for any word
+- **Interactive Word Links**: Click any word in the text to explore its story
+- **Real-time Streaming**: Watch AI responses generate in real-time
+- **Desktop Native**: Built with Tauri for cross-platform desktop performance
+
+## Development
+
+```bash
+bun install
+just dev
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+## Configuration
+
+The application requires environment variables for AI service integration:
+
+- `API_KEY`: AI service authentication key
+- `AI_URL`: AI service endpoint
+
+## License
+
+MIT
