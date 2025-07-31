@@ -23,16 +23,36 @@ function RouteComponent() {
   const { word } = Route.useParams();
 
   return (
-    <>
-      <h1>{word}</h1>
-      <WordInterpreter word={word} />
-    </>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 flex items-center justify-center">
+      <div className="max-w-4xl w-full">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-4xl font-bold text-gray-800 mb-2 text-center">
+            {word}
+          </h1>
+          <WordInterpreter word={word} />
+        </div>
+      </div>
+    </div>
   );
 }
 
 function WordInterpreter({ word }: { word: string }) {
   const { text, loading } = useWordExplanation(word);
-  return <LinkMaker text={text} />;
+
+  return (
+    <div className="prose prose-lg max-w-none">
+      <div
+        className={`text-gray-700 leading-relaxed text-lg ${loading ? "animate-pulse text-blue-600" : ""}`}
+      >
+        <LinkMaker text={text} />
+        {loading && (
+          <span className="inline-block ml-1">
+            <span className="animate-pulse">|</span>
+          </span>
+        )}
+      </div>
+    </div>
+  );
 }
 
 function useWordExplanation(word: string) {
