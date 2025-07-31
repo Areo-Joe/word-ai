@@ -15,6 +15,7 @@
     "@tanstack/react-router-devtools": "^1.129.8",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
+    "lucide-react": "^0.534.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwindcss": "^4.1.11",
