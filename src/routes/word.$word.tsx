@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { invoke, Channel } from "@tauri-apps/api/core";
-import { Suspense, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import z from "zod";
+import { LinkMaker } from "../components/linkMaker";
 
 const schema = z.object({
   choices: z.array(z.any()),
@@ -24,19 +25,34 @@ function RouteComponent() {
   return (
     <>
       <h1>{word}</h1>
-      <Suspense fallback={<p>Loading...</p>}>
-        <WordInterpreter word={word} />
-      </Suspense>
+      <WordInterpreter word={word} />
     </>
   );
 }
 
 function WordInterpreter({ word }: { word: string }) {
+  const { text, loading } = useWordExplanation(word);
+  return <LinkMaker text={text} />;
+}
+
+function useWordExplanation(word: string) {
   const [text, setText] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+
   useEffect(() => {
+    let cancel = false;
+    setLoading(true);
+    setText("");
+
     const onEvent = new Channel<StreamAIEvent>();
+
     onEvent.onmessage = (message) => {
+      if (cancel) return;
       try {
+        if (message.data.content === "[DONE]") {
+          setLoading(false);
+        }
+
         const parsed = schema.parse(JSON.parse(message.data.content));
         const arr = parsed.choices;
         const delta = arr
@@ -52,7 +68,11 @@ function WordInterpreter({ word }: { word: string }) {
       word: word,
       onEvent: onEvent,
     });
+
+    return () => {
+      cancel = true;
+    };
   }, [word]);
 
-  return <p className="whitespace-pre-wrap">{text}</p>;
+  return { text, loading };
 }
