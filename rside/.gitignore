@@ -4,3 +4,6 @@
 target
 .claude
 cloudbaserc.json
+sqlite.db
+sqlite.db-wal
+src/main.rs
