@@ -28,6 +28,7 @@ The application requires environment variables for AI service integration:
 
 - `API_KEY`: AI service authentication key
 - `AI_URL`: AI service endpoint
+- `MODEL` - AI model name
 
 ## License
 
