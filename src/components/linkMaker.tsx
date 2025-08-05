@@ -46,7 +46,7 @@ function WordLink({ text }: { text: string }) {
 
   return arr.map((x) =>
     "word" in x ? (
-      <a href="#" className="hover:underline">
+      <a href="#" className="text-slate-900 font-medium hover:text-slate-700 hover:underline">
         <Link to="/word/$word" params={{ word: x.word }}>
           {x.word}
         </Link>

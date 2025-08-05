@@ -9,11 +9,11 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-100 p-4 flex items-center justify-center">
-      <div className="max-w-5xl w-full text-center">
-        <h1 className="text-8xl font-black text-gray-900 mb-12">Word AI</h1>
-        <div className="prose prose-2xl max-w-none mx-auto">
-          <div className="text-gray-700 leading-relaxed text-2xl font-medium">
+    <div className="min-h-screen bg-slate-50 p-8 flex items-center justify-center">
+      <div className="max-w-4xl w-full">
+        <h1 className="text-7xl font-bold text-slate-900 mb-12 text-center">Word AI</h1>
+        <div className="text-center">
+          <div className="text-slate-600 leading-relaxed text-xl">
             <LinkMaker text={DEFAULT_TEXT} />
           </div>
         </div>

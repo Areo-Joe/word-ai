@@ -72,3 +72,7 @@ The project uses:
 
 ### Code Length Principle
 When writing code, keep implementations concise and focused for easy user review. Prioritize clarity and brevity over complex solutions.
+
+## UI Requirements
+
+See @spec/ui.md

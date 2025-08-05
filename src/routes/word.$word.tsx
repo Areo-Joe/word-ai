@@ -26,18 +26,18 @@ function RouteComponent() {
   const { word } = Route.useParams();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 flex items-center justify-center relative">
+    <div className="min-h-screen bg-slate-50 p-8 flex items-center justify-center relative">
       <Link
         to="/"
-        className="absolute top-4 left-4 bg-white/80 backdrop-blur-sm rounded-full p-3 shadow-lg hover:bg-white transition-colors duration-200 hover:shadow-xl"
+        className="absolute top-8 left-8 bg-white rounded-lg p-3 shadow-sm hover:shadow-md border border-slate-200 transition-shadow duration-200"
         aria-label="Go home"
       >
-        <Home className="w-5 h-5 text-gray-700" />
+        <Home className="w-5 h-5 text-slate-700" />
       </Link>
 
-      <div className="max-w-4xl w-full">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2 text-center">
+      <div className="max-w-3xl w-full">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-12">
+          <h1 className="text-3xl font-bold text-slate-900 mb-8 text-center">
             {word}
           </h1>
           <WordInterpreter word={word} />
@@ -51,9 +51,9 @@ function WordInterpreter({ word }: { word: string }) {
   const { text, loading } = useWordExplanation(word);
 
   return (
-    <div className="prose prose-lg max-w-none">
+    <div className="max-w-none">
       <div
-        className={`text-gray-700 leading-relaxed text-lg ${loading ? "animate-pulse text-blue-600" : ""}`}
+        className={`text-slate-600 leading-relaxed text-lg ${loading ? "animate-pulse text-slate-800" : ""}`}
       >
         <LinkMaker text={text} />
         {loading && (
