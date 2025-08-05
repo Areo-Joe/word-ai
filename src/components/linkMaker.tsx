@@ -1,19 +1,6 @@
 import { Link } from "@tanstack/react-router";
 
 export function LinkMaker({ text }: { text: string }) {
-  return (
-    <>
-      {text.split(" ").map((word, index) => (
-        <>
-          {index !== 0 && <span> </span>}
-          <WordLink text={word} />
-        </>
-      ))}
-    </>
-  );
-}
-
-function WordLink({ text }: { text: string }) {
   const arr = text
     .split("")
     .map((char) =>
@@ -46,11 +33,13 @@ function WordLink({ text }: { text: string }) {
 
   return arr.map((x) =>
     "word" in x ? (
-      <a href="#" className="text-slate-900 font-medium hover:text-slate-700 hover:underline">
-        <Link to="/word/$word" params={{ word: x.word }}>
-          {x.word}
-        </Link>
-      </a>
+      <Link
+        className="text-slate-900 font-medium hover:text-slate-700 hover:underline"
+        to="/word/$word"
+        params={{ word: x.word }}
+      >
+        {x.word}
+      </Link>
     ) : (
       <>{x.content}</>
     ),
