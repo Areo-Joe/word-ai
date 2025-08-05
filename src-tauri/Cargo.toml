@@ -26,3 +26,5 @@ reqwest = { version = "0.12.22", features = ["json", "stream"] }
 futures-util = "0.3.31"
 eventsource-client = "0.15.0"
 futures = "0.3.31"
+rside = { version = "0.1.0", path = "../rside" }
+turso = "0.1.3"

@@ -78,3 +78,15 @@ pub async fn word_exists(conn: &Connection, word: &str) -> bool {
         .unwrap();
     rows.next().await.unwrap().is_some()
 }
+
+pub async fn ensure_table_exists(conn: &Connection) {
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS WORD (
+            word TEXT,
+            story TEXT
+        );",
+        (),
+    )
+    .await
+    .unwrap();
+}

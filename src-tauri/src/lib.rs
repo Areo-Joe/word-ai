@@ -1,4 +1,5 @@
-mod ai;
+pub mod ai;
+pub mod state;
 use std::env;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/

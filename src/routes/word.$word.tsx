@@ -9,12 +9,14 @@ const schema = z.object({
   choices: z.array(z.any()),
 });
 
-type StreamAIEvent = {
-  event: "message";
-  data: {
-    content: string;
-  };
-};
+type StreamAIEvent =
+  | {
+      event: "message";
+      data: {
+        content: string;
+      };
+    }
+  | { event: "done" };
 
 export const Route = createFileRoute("/word/$word")({
   component: RouteComponent,
@@ -32,7 +34,7 @@ function RouteComponent() {
       >
         <Home className="w-5 h-5 text-gray-700" />
       </Link>
-      
+
       <div className="max-w-4xl w-full">
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-2 text-center">
@@ -78,18 +80,13 @@ function useWordExplanation(word: string) {
     onEvent.onmessage = (message) => {
       if (cancel) return;
       try {
-        if (message.data.content === "[DONE]") {
+        if (message.event === "done") {
           setLoading(false);
+        } else {
+          const delta = message.data.content;
+
+          setText((x) => x + delta);
         }
-
-        const parsed = schema.parse(JSON.parse(message.data.content));
-        const arr = parsed.choices;
-        const delta = arr
-          .filter((x) => typeof x?.delta?.content === "string")
-          .map((x) => x.delta.content)
-          .join("");
-
-        setText((x) => x + delta);
       } catch (_) {}
     };
 
