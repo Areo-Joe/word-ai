@@ -1,5 +1,6 @@
 pub mod ai;
 pub mod state;
+pub mod words;
 use std::env;
 use tauri::async_runtime::Mutex;
 use tauri::{async_runtime::block_on, Manager};
@@ -23,7 +24,11 @@ pub fn run() {
             Ok(())
         })
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![ai::stream_ai])
+        .invoke_handler(tauri::generate_handler![
+            ai::stream_ai,
+            words::get_all_words,
+            words::delete_word
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
