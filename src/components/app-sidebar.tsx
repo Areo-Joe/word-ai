@@ -19,9 +19,14 @@ import {
 } from "./ui/collapsible";
 import { useGetAllWords } from "@/hooks/words";
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useParams } from "@tanstack/react-router";
 
 function WordsSideBar() {
+  const activeWord = useParams({
+    from: "/word/$word",
+    shouldThrow: false,
+  });
+
   const [open, setOpen] = useState(true);
   const { data: words = [] } = useGetAllWords();
 
@@ -48,10 +53,17 @@ function WordsSideBar() {
         <SidebarMenuSub>
           {words.map(({ word }) => {
             return (
-              <SidebarMenuSubItem key={word}>
+              <SidebarMenuSubItem
+                key={word}
+                className={
+                  activeWord !== undefined && word === activeWord.word
+                    ? "bg-sidebar-accent border-l-2 border-sidebar-primary rounded-r-md"
+                    : ""
+                }
+              >
                 <SidebarMenuButton asChild>
                   <Link to="/word/$word" params={{ word: word }}>
-                    <span>{word}</span>
+                    <span>{word} </span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuSubItem>
