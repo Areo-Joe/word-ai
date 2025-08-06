@@ -2,6 +2,7 @@ import {
   useQuery,
   experimental_streamedQuery as stremedQuery,
   queryOptions,
+  useQueryClient,
 } from "@tanstack/react-query";
 import { Channel, invoke } from "@tauri-apps/api/core";
 import { Queuer } from "@tanstack/pacer";
@@ -15,6 +16,10 @@ export function useGetAllWords() {
   return useQuery({
     queryKey: ["words"],
     queryFn: () => invoke<Array<Words>>("get_all_words"),
+    select: (x) => {
+      x.sort((a, b) => a.word.localeCompare(b.word));
+      return x;
+    },
   });
 }
 
@@ -76,12 +81,32 @@ async function* storyGetter(word: string) {
 }
 
 export function useGetStoryOfWord(word: string) {
-  return useQuery(
+  const queryClient = useQueryClient();
+
+  const result = useQuery(
     queryOptions({
       queryKey: ["word", word],
       queryFn: stremedQuery({
-        queryFn: () => storyGetter(word),
+        queryFn: () => {
+          const words = queryClient.getQueryData<Array<Words>>(["words"]);
+
+          if (!words?.some((x) => x.word === word)) {
+            queryClient.setQueryData<Array<Words>>(["words"], (_old) => {
+              const old = _old || [];
+
+              const ret = [...old, { word, story: "" }];
+
+              ret.sort((a, b) => a.word.localeCompare(b.word));
+
+              return ret;
+            });
+          }
+
+          return storyGetter(word);
+        },
       }),
     }),
   );
+
+  return result;
 }
