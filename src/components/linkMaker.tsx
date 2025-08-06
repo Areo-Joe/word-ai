@@ -1,10 +1,12 @@
 import { Link } from "@tanstack/react-router";
 
 export function LinkMaker({ stringArr }: { stringArr: Array<string> }) {
+  const str = stringArr.join("");
+
   const wordReg = /[a-zA-Z]+/g;
   const wordAndNonWordReg = /[a-zA-Z]+|[^a-zA-Z]+/g;
 
-  const wordAndNonWord = stringArr.join("").match(wordAndNonWordReg)!;
+  const wordAndNonWord = str.match(wordAndNonWordReg) || [];
 
   return wordAndNonWord.map((x) => {
     return wordReg.test(x) ? (
