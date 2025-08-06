@@ -4,6 +4,7 @@ import {
   queryOptions,
 } from "@tanstack/react-query";
 import { Channel, invoke } from "@tauri-apps/api/core";
+import { Queuer } from "@tanstack/pacer";
 
 interface Words {
   word: string;
@@ -43,11 +44,20 @@ async function* storyGetter(word: string) {
   const onEvent = new Channel<StreamAIEvent>();
   let { promise, resolver } = createStreamAIEventPromise();
 
+  const queue = new Queuer<StreamAIEvent>(
+    (event) => {
+      resolver(event);
+      const next = createStreamAIEventPromise();
+      promise = next.promise;
+      resolver = next.resolver;
+    },
+    {
+      wait: 20,
+    },
+  );
+
   onEvent.onmessage = (message) => {
-    resolver(message);
-    const next = createStreamAIEventPromise();
-    promise = next.promise;
-    resolver = next.resolver;
+    queue.addItem(message);
   };
 
   invoke("stream_ai", {
